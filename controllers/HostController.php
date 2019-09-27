@@ -191,6 +191,23 @@ class HostController extends Controller
             'nets'   => $nets,
         ]);
     }
+    
+    public function actionCheckList($format='html')
+    {
+        $this->layout = false;
+        $hosts = Host::find()->select(['fqdn'])->orderBy(['fqdn'=>SORT_ASC])->asArray(true)->all();
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        
+        if ($format != 'html') {
+            $format == 'text';
+            Yii::$app->response->headers->add('Content-Type', 'text/plain');
+        }
+        
+        return $this->render('check-list',[
+            'hosts'  => $hosts,
+            'format' => $format,
+        ]);
+    }
 
     /**
      * Finds the Host model based on its primary key value.

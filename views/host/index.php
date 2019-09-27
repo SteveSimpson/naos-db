@@ -21,6 +21,8 @@ $this->params['breadcrumbs'][] = ['label' => 'DNS CNames', 'url' => ['dns-cname/
         <?= Html::a('Create Host', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('DNS Zones', ['zones'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('/etc/hosts', ['etc-hosts'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Checklist', ['check-list'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Host List', ['check-list','format'=>'text'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
