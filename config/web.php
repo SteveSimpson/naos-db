@@ -1,4 +1,5 @@
 <?php
+// This file will be overwritten with each update, secrets are kept in sub configuration files
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -13,8 +14,9 @@ $config = [
     ],
     'components' => [
         'request' => [
+            // maybe: openssl rand -base64 32 > cookiestring 
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'WEvWGF2SQ59EKPnzgftm3MMPqpHSGV2U',
+            'cookieValidationKey' => file_get_contents(dirname(__FILE__) . "/cookiestring"),
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -26,18 +28,12 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
-        ],
+        'mailer' => require __DIR__ . '/mailer.php',
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            // 'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => 'yii\log\SyslogTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
@@ -61,14 +57,14 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '::1', '172.16.218.1'],
+        'allowedIPs' => require __DIR__ . '/dev_ip.php',
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['127.0.0.1', '::1', '172.16.218.1'],
+        'allowedIPs' => require __DIR__ . '/dev_ip.php',
     ];
 }
 

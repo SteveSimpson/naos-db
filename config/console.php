@@ -1,4 +1,5 @@
 <?php
+// This file will be overwritten with each update, secrets are kept in sub configuration files
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
@@ -20,7 +21,7 @@ $config = [
         'log' => [
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => 'yii\log\SyslogTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
