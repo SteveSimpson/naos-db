@@ -130,7 +130,7 @@ class NetworkController extends Controller
      */
     public function actionDelete($id)
     {
-        $model=$this->findModel($id)->one();
+        $model=$this->findModel($id);
         
         if (Host::find()->where(['network_name'=>$model->network_name])->all()) {
             throw new NotAcceptableHttpException('Hosts exists with the Network.');

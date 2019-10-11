@@ -82,18 +82,20 @@ class HostController extends Controller
             //echo "<pre>"; print_r(Yii::$app->request->post()); die();
             
             if ($net) {
-                $model->fqdn = trim($model->hostname) . "." . trim($net->dnsdomain);
+                $model->hostname = trim($model->hostname);
+                $net->dnsdomain = trim($net->dnsdomain);
+                $model->fqdn = $model->hostname . "." . $net->dnsdomain;
                 $model->location_name = $net->location_name;
-                $model->ipv4 = trim($net->prefix4, " .") . "." . $model->host_ip_last;
-                $model->ipv6 = trim($net->prefix6) . $model->host_ip_last;
-                $model->mask4 = $net->mask4;
-                $model->mask6 = $net->mask6;
+                $model->ipv4 = trim($net->prefix4, " .") . "." . trim($model->host_ip_last);
+                $model->ipv6 = trim($net->prefix6) . trim($model->host_ip_last);
+                $model->mask4 = trim($net->mask4);
+                $model->mask6 = trim($net->mask6);
                 $model->monitor_ip = $model->ipv4;
                 $model->enabled = 1;
             }
             
             if($model->save()) {
-                if (array_key_exists('anthor',Yii::$app->request->post()) && Yii::$app->request->post()['another'] == 'yes') {
+                if (array_key_exists('another',Yii::$app->request->post()) && Yii::$app->request->post()['another'] == 'yes') {
                     return $this->redirect(['create']);
                 } else {
                     return $this->redirect(['view', 'id' => $model->id]);
