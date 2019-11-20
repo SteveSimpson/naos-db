@@ -71,6 +71,7 @@ class Nagios extends Model
                 ['Networks'=>'/nagios/naos.php?r=network'],
                 ['Hosts'=>'/nagios/naos.php?r=host'],
                 ['FW Configs'=>'/nagios/naos.php?r=pps'],
+                ['Naos Configs'=>'/nagios/naos.php?r=config'],
             ],
         ];
     }
