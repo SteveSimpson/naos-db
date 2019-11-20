@@ -15,7 +15,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'network_name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'location_name')->dropDownList($locations) ?>
-
+    
+    <?= $form->field($model, 'range4')->textInput(['maxlength' => true]) ?>
+    
     <?= $form->field($model, 'prefix4')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'prefix6')->textInput(['maxlength' => true]) ?>
@@ -25,7 +27,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'mask6')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'dnsdomain')->textInput(['maxlength' => true]) ?>
-
+    
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

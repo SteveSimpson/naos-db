@@ -167,6 +167,8 @@ class HostController extends Controller
     {
         $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
         
+        $nets = Network::find()->asArray(false)->all();
+        
         $cnames = DnsCname::find()->asArray(true)->all();
         
         $this->layout = false;
@@ -178,6 +180,7 @@ class HostController extends Controller
         
         return $this->render('etc-hosts', [
             'hosts' => $hosts,
+            'nets' => $nets,
             'cnames' => $cnames,
             'header' => $header,
             'footer' => $footer,

@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'network_name',
             'location_name',
+            'range4',
             'prefix4',
             'prefix6',
             'mask4',
