@@ -40,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'service',
             'ipv4',
             'ipv6',
+            'ipv4int',
             'mask4',
             'mask6',
             'monitor_ip',

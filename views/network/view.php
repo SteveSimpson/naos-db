@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'prefix4',
             'prefix6',
             'mask4',
+            'netmask',
             'mask6',
             'dnsdomain',
             'notes:ntext',

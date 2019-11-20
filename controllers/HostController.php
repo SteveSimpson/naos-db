@@ -3,15 +3,16 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\db\Config;
+use app\models\db\DnsCname;
 use app\models\db\Host;
 use app\models\db\HostSearch;
 use app\models\db\Location;
+use app\models\db\Network;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\db\Network;
-use app\models\db\DnsCname;
 
 /**
  * HostController implements the CRUD actions for Host model.
@@ -164,20 +165,28 @@ class HostController extends Controller
     
     public function actionEtcHosts()
     {
-        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4'=>SORT_ASC])->asArray(true)->all();
+        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
+        
+        $cnames = DnsCname::find()->asArray(true)->all();
         
         $this->layout = false;
         Yii::$app->response->format = Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'text/plain');
         
+        $header = Config::find()->where(['name'=>'etc_hosts_header'])->one();
+        $footer = Config::find()->where(['name'=>'etc_hosts_footer'])->one();
+        
         return $this->render('etc-hosts', [
             'hosts' => $hosts,
+            'cnames' => $cnames,
+            'header' => $header,
+            'footer' => $footer,
         ]);
     }
     
     public function actionZones()
     {
-        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4'=>SORT_ASC])->asArray(true)->all();
+        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
         
         $this->layout = false;
         Yii::$app->response->format = Response::FORMAT_RAW;

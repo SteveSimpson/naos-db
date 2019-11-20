@@ -16,6 +16,7 @@ use Yii;
  * @property string $mask6
  * @property string $dnsdomain
  * @property string $notes
+ * @property string $range4
  */
 class Network extends \yii\db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class Network extends \yii\db\ActiveRecord
     {
         return [
             [['notes'], 'string'],
-            [['network_name', 'location_name', 'prefix4', 'prefix6', 'mask4', 'mask6', 'dnsdomain'], 'string', 'max' => 255],
+            [['network_name', 'location_name', 'prefix4', 'prefix6', 'mask4', 'mask6', 'dnsdomain', 'range4'], 'string', 'max' => 255],
             [['network_name'], 'unique'],
         ];
     }
@@ -50,10 +51,28 @@ class Network extends \yii\db\ActiveRecord
             'location_name' => 'Location Name',
             'prefix4' => 'Prefix for IPv4',
             'prefix6' => 'Prefix for IPv6',
-            'mask4' => 'IPv4 Netmask',
+            'mask4' => 'IPv4 Netmask (CIDR)',
+            'netmask' => 'IPv4 Netmask',
             'mask6' => 'IPv6 Netmask',
             'dnsdomain' => 'DNS Domain',
             'notes' => 'Notes',
+            'range4' => 'IPv4 Range',
         ];
+    }
+    
+    public function getNetmask()
+    {
+        $mask = intval($this->mask4);
+        
+        if ($mask >= 0 && $this->mask4 <= 32) {
+            
+            $ipInt = 0;
+            for($i = 0; $i <=$mask; $i++) {
+                $ipInt += pow(2, 32-$i);
+            }
+            return long2ip($ipInt);
+        } else {
+            return "";
+        }
     }
 }

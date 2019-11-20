@@ -21,6 +21,7 @@ use Yii;
  * @property int $enabled
  * @property string $notes
  * @property string $type
+ * @property int $ipv4int
  */
 class Host extends \yii\db\ActiveRecord
 {
@@ -40,7 +41,7 @@ class Host extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['enabled','host_ip_last'], 'integer'],
+            [['enabled','host_ip_last','ipv4int'], 'integer'],
             [['notes'], 'string'],
             [['hostname', 'fqdn', 'network_name', 'location_name', 'service', 'ipv4', 'ipv6', 'mask4', 'mask6', 'monitor_ip', 'type'], 'string', 'max' => 255],
             [['fqdn'], 'unique'],
@@ -69,6 +70,7 @@ class Host extends \yii\db\ActiveRecord
             'enabled' => 'Enabled',
             'notes' => 'Notes',
             'type' => 'Type',
+            'ipv4int' => 'IPv4 Decimal',
         ];
     }
     
@@ -87,5 +89,12 @@ class Host extends \yii\db\ActiveRecord
             'generic-switch'  => 'generic-switch',
             'generic-router'  => 'generic-router',
         ];
+    }
+    
+    public function beforeSave($insert)
+    {
+        $this->ipv4int = ip2long($this->ipv4);
+        
+        return parent::beforeSave($insert);
     }
 }

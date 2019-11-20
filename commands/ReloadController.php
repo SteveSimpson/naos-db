@@ -110,6 +110,16 @@ class ReloadController extends Controller
         }
     }
     
+    public function actionFixHosts()
+    {
+        $hosts = Host::find()->all();
+        
+        foreach ($hosts as $host) {
+            $host->ipv4int = 1;
+            $host->save();
+        }
+    }
+    
     public function actionPps($firewall)
     {
         Pps::parseConfig($firewall);

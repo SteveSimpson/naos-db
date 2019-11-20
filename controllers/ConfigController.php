@@ -3,20 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\db\FwConfig;
-use app\models\db\FwConfigSearch;
+use app\models\db\Config;
+use app\models\db\ConfigSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\db\Pps;
-use app\models\db\FwApp;
-use app\models\db\FwAppSet;
-use app\models\db\FwAddresses;
 
 /**
- * PpsController implements the CRUD actions for FwConfig model.
+ * ConfigController implements the CRUD actions for Config model.
  */
-class PpsController extends Controller
+class ConfigController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -34,12 +30,12 @@ class PpsController extends Controller
     }
 
     /**
-     * Lists all FwConfig models.
+     * Lists all Config models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FwConfigSearch();
+        $searchModel = new ConfigSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $this->layout = "nagios";
@@ -51,39 +47,34 @@ class PpsController extends Controller
     }
 
     /**
-     * Displays a single FwConfig model.
-     * @param integer $id
+     * Displays a single Config model.
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $model=$this->findModel($id);
-        
-        $pps = Pps::find()->where(['fw_name'=>$model->fw_name])->one();
-        
         $this->layout = "nagios";
         
         return $this->render('view', [
-            'model' => $model,
-            'pps' => $pps,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new FwConfig model.
+     * Creates a new Config model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new FwConfig();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
+        $model = new Config();
         
         $this->layout = "nagios";
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->name]);
+        }
 
         return $this->render('create', [
             'model' => $model,
@@ -91,49 +82,31 @@ class PpsController extends Controller
     }
 
     /**
-     * Updates an existing FwConfig model.
+     * Updates an existing Config model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
+        $this->layout = "nagios";
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->name]);
         }
 
-        $this->layout = "nagios";
-        
         return $this->render('update', [
             'model' => $model,
         ]);
     }
-    
-    public function actionShow($id)
-    {
-        $policies = Pps::find()->where($id)->orderBy(['source_zone'=>SORT_ASC,'destination_zone'=>SORT_ASC,'line'=>SORT_ASC])->all();
-        
-        if ($policies == false || count($policies) == 0) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-        
-        $this->layout = "nagios";
-
-        return $this->render('show', [
-            'apps'=>FwApp::find()->where(['fw_name'=>$policies[0]->fw_name])->all(),
-            'appSets'=>FwAppSet::find()->where(['fw_name'=>$policies[0]->fw_name])->all(),
-            'policies' => $policies,
-            'addresses' => FwAddresses::find()->where(['fw_name'=>$policies[0]->fw_name])->orderBy(['fw_zone'=>SORT_ASC,'name'=>SORT_ASC,'ip'=>SORT_ASC])->all(),
-        ]);
-    }
 
     /**
-     * Deletes an existing FwConfig model.
+     * Deletes an existing Config model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -145,15 +118,15 @@ class PpsController extends Controller
     }
 
     /**
-     * Finds the FwConfig model based on its primary key value.
+     * Finds the Config model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return FwConfig the loaded model
+     * @param string $id
+     * @return Config the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FwConfig::findOne($id)) !== null) {
+        if (($model = Config::findOne($id)) !== null) {
             return $model;
         }
 

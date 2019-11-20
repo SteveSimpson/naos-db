@@ -56,4 +56,11 @@ class FwConfig extends \yii\db\ActiveRecord
             'notes' => 'Notes',
         ];
     }
+    
+    public function afterSave($insert, $changedAttributes)
+    {
+        Pps::parseConfig($this->fw_name);
+        
+        return parent::afterSave($insert, $changedAttributes);
+    }
 }
