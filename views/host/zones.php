@@ -9,29 +9,31 @@ $ipv4 = [];
 $ipv4net = [];
 
 foreach($hosts as $host) {
-    $dnsdomain = substr($host['fqdn'], (strpos($host['fqdn'],'.') +1) );
-    
-    $dns[$dnsdomain] = $dnsdomain;
-    
-    $net4parts = explode(".", $host['ipv4']);
-    if (is_array($net4parts) && count($net4parts) == 4) {
-        $net4 = $net4parts[0] . "." .  $net4parts[1] . "." .  $net4parts[2];
+    if ($host['fqdn'] != "") {
+        $dnsdomain = substr($host['fqdn'], (strpos($host['fqdn'],'.') +1) );
         
-        $ipv4[$net4][$net4parts[3]] = $host['fqdn'];
-    }
-    
-    
-    $net6parts = explode(":", $host['ipv6']);
-    if (is_array($net6parts) && count($net6parts) >= 5) {
-        $net6 = $net6parts[0] . ":" .  $net6parts[1] . ":" .  $net6parts[2] . ":" .  $net6parts[3];
+        $dns[$dnsdomain] = $dnsdomain;
         
-        for ($i=0; $i<4; $i++) {
-            array_shift($net6parts);
+        $net4parts = explode(".", $host['ipv4']);
+        if (is_array($net4parts) && count($net4parts) == 4) {
+            $net4 = $net4parts[0] . "." .  $net4parts[1] . "." .  $net4parts[2];
+            
+            $ipv4[$net4][$net4parts[3]] = $host['fqdn'];
         }
         
-        $host6 = trim(implode(":",$net6parts), ":");
         
-        $ipv6[$net6][$host6] = $host['fqdn'];
+        $net6parts = explode(":", $host['ipv6']);
+        if (is_array($net6parts) && count($net6parts) >= 5) {
+            $net6 = $net6parts[0] . ":" .  $net6parts[1] . ":" .  $net6parts[2] . ":" .  $net6parts[3];
+            
+            for ($i=0; $i<4; $i++) {
+                array_shift($net6parts);
+            }
+            
+            $host6 = trim(implode(":",$net6parts), ":");
+            
+            $ipv6[$net6][$host6] = $host['fqdn'];
+        }
     }
     
 }

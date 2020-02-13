@@ -53,6 +53,10 @@ if($html) { ?>
 $count = 1;
 
 foreach($hosts as $host) {
+    if($host->os == null || $host->location == null) {
+        continue;
+    }
+    
     echo ($html ? "<tr><td>" : "");
     echo $count++;
     

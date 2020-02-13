@@ -45,6 +45,10 @@ $tableOpen = false;
 $count = 1;
 
 foreach($hosts as $host) {
+    if($host->os == null || $host->location == null) {
+        continue;
+    }
+    
     if ($networkName !== $host->network_name) {
         $networkName = $host->network_name;
         
