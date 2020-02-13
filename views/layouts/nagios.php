@@ -62,7 +62,7 @@ Logged in as <i><?= $user ?></i><BR>
 
     <div class="container">
         <?= Breadcrumbs::widget([
-            'homeLink' => ['label' => 'Naos DB'],
+            'homeLink' => ['label' => 'Naos DB', 'url' => ['/']],
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>

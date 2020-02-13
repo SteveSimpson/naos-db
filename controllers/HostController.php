@@ -254,7 +254,7 @@ class HostController extends Controller
         } else {
             $this->layout = false;
             Yii::$app->response->format = Response::FORMAT_RAW;
-            Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="hwlist.txt"');
+            Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="hardware-list.txt"');
             Yii::$app->response->headers->add('Content-Type', 'text/plain');
             $html=false;
         }
