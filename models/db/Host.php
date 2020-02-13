@@ -31,7 +31,7 @@ use Yii;
  * @property int $critical
  * @property int $hw_show
  * 
- * @property Os string $os
+ * @property Os $os
  * @property Network $network
  * @property Location $location
  */
