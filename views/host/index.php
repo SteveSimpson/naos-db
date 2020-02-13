@@ -18,11 +18,14 @@ $this->params['breadcrumbs'][] = ['label' => 'DNS CNames', 'url' => ['dns-cname/
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
+    	<?= Html::a('Edit OS List', ['/os/index'], ['class' => 'btn btn-info pull-right']) ?>
         <?= Html::a('Create Host', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('DNS Zones', ['zones'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('/etc/hosts', ['etc-hosts'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Checklist', ['check-list'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Host List', ['check-list','format'=>'text'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Hardware List', ['hw-list'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Net Diagram Hosts', ['net-diagram'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

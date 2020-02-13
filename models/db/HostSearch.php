@@ -17,8 +17,8 @@ class HostSearch extends Host
     public function rules()
     {
         return [
-            [['id', 'enabled'], 'integer'],
-            [['hostname', 'fqdn', 'network_name', 'location_name', 'service', 'ipv4', 'ipv6', 'mask4', 'mask6', 'monitor_ip', 'notes'], 'safe'],
+            [['id', 'enabled', 'ipv4int', 'os_id', 'virtual', 'dod_approval', 'critical', 'hw_show'], 'integer'],
+            [['hostname', 'fqdn', 'network_name', 'location_name', 'service', 'ipv4', 'ipv6', 'mask4', 'mask6', 'monitor_ip', 'notes', 'make', 'model', 'serial'], 'safe'],
         ];
     }
 
@@ -60,6 +60,11 @@ class HostSearch extends Host
         $query->andFilterWhere([
             'id' => $this->id,
             'enabled' => $this->enabled,
+            'os_id' => $this->os_id,
+            'virtual' => $this->virtual,
+            'dod_approval' => $this->dod_approval,
+            'critical' => $this->critical,
+            'hw_show' => $this->hw_show,
         ]);
 
         $query->andFilterWhere(['like', 'hostname', $this->hostname])
@@ -71,7 +76,10 @@ class HostSearch extends Host
             ->andFilterWhere(['like', 'ipv6', $this->ipv6])
             ->andFilterWhere(['like', 'mask4', $this->mask4])
             ->andFilterWhere(['like', 'mask6', $this->mask6])
-            ->andFilterWhere(['like', 'monitor_ip', $this->monitor_ip])
+            ->andFilterWhere(['like', 'make', $this->make])
+            ->andFilterWhere(['like', 'model', $this->model])
+            ->andFilterWhere(['like', 'mask6', $this->mask6])
+            ->andFilterWhere(['like', 'serial', $this->serial])
             ->andFilterWhere(['like', 'notes', $this->notes]);
 
         return $dataProvider;

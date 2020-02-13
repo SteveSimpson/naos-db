@@ -28,6 +28,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'dnsdomain')->textInput(['maxlength' => true]) ?>
     
+    <?= $form->field($model, 'vlan')->textInput(['maxlength' => true]) ?>
+    
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">

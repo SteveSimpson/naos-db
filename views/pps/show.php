@@ -1,13 +1,13 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+// use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $policies []app\models\db\Pps */
 /* @var $policy  app\models\db\Pps */
 
-$this->title = "Ports, Protocols and Services for " . $policies[0]->fw_name;
+$this->title = "Ports, Protocols and Service Rules for " . $policies[0]->fw_name;
 
 //$this->params['breadcrumbs'][] = ['label' => 'Fw Configs', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;

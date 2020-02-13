@@ -222,6 +222,52 @@ class HostController extends Controller
             'format' => $format,
         ]);
     }
+    
+    public function actionHwList($format='html')
+    {
+        if ($format ==  'html') {
+            $this->layout = "nagios";
+            $html = true;
+        } else {
+            $this->layout = false;
+            Yii::$app->response->format = Response::FORMAT_RAW;
+            Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="hwlist.txt"');
+            Yii::$app->response->headers->add('Content-Type', 'text/plain');
+            $html=false;
+        } 
+        
+        $format = filter_var($format, FILTER_SANITIZE_STRING);
+        
+        $hosts = Host::findAll(['hw_show'=>1]);
+        return $this->render('hw-list',[
+            'hosts'  => $hosts,
+            'html' => $html,
+            'format' => $format,
+        ]);
+    }
+    
+    public function actionNetDiagram($format='html')
+    {
+        if ($format ==  'html') {
+            $this->layout = "nagios";
+            $html = true;
+        } else {
+            $this->layout = false;
+            Yii::$app->response->format = Response::FORMAT_RAW;
+            Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="hwlist.txt"');
+            Yii::$app->response->headers->add('Content-Type', 'text/plain');
+            $html=false;
+        }
+        
+        $format = filter_var($format, FILTER_SANITIZE_STRING);
+        
+        $hosts = Host::find()->where(['hw_show'=>1])->orderBy(['network_name'=>SORT_ASC,'hostname'=>SORT_ASC])->all();
+        return $this->render('net-diagram',[
+            'hosts'  => $hosts,
+            'html' => $html,
+            'format' => $format,
+        ]);
+    }
 
     /**
      * Finds the Host model based on its primary key value.

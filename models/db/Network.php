@@ -17,6 +17,10 @@ use Yii;
  * @property string $dnsdomain
  * @property string $notes
  * @property string $range4
+ * @property string $vlan
+ * 
+ * @property Host[] $hosts
+ * @property Location $location
  */
 class Network extends \yii\db\ActiveRecord
 {
@@ -35,7 +39,7 @@ class Network extends \yii\db\ActiveRecord
     {
         return [
             [['notes'], 'string'],
-            [['network_name', 'location_name', 'prefix4', 'prefix6', 'mask4', 'mask6', 'dnsdomain', 'range4'], 'string', 'max' => 255],
+            [['network_name', 'location_name', 'prefix4', 'prefix6', 'mask4', 'mask6', 'dnsdomain', 'range4', 'vlan'], 'string', 'max' => 255],
             [['network_name'], 'unique'],
         ];
     }
@@ -57,6 +61,7 @@ class Network extends \yii\db\ActiveRecord
             'dnsdomain' => 'DNS Domain',
             'notes' => 'Notes',
             'range4' => 'IPv4 Range',
+            'vlan' => 'VLAN',
         ];
     }
     
@@ -74,5 +79,23 @@ class Network extends \yii\db\ActiveRecord
         } else {
             return "";
         }
+    }
+    
+    /**
+     *
+     * @return Location
+     */
+    public function getLocation()
+    {
+        return $this->hasOne(Location::className(), ['location_name' => 'location_name']);
+    }
+    
+    /**
+     *
+     * @return Host[]
+     */
+    public function getHosts()
+    {
+        return $this->hasMany(Host::className(), ['network_name' => 'network_name']);
     }
 }

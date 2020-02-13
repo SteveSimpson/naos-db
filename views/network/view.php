@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'netmask',
             'mask6',
             'dnsdomain',
+            'vlan',
             'notes:ntext',
         ],
     ]) ?>

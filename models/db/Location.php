@@ -9,7 +9,11 @@ use Yii;
  *
  * @property int $id
  * @property string $location_name
+ * @property string $building
  * @property string $notes
+ * 
+ * @property Host[] $hosts
+ * @property Network[] $networks
  */
 class Location extends \yii\db\ActiveRecord
 {
@@ -28,7 +32,7 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             [['notes'], 'string'],
-            [['location_name'], 'string', 'max' => 255],
+            [['location_name', 'building'], 'string', 'max' => 255],
             [['location_name'], 'unique'],
         ];
     }
@@ -41,7 +45,27 @@ class Location extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'location_name' => 'Location Name',
+            'building' => 'Building',
             'notes' => 'Notes',
         ];
     }
+    
+    /**
+     * 
+     * @return Network[]
+     */
+    public function getNetworks()
+    {
+        return $this->hasMany(Network::className(), ['location_name' => 'location_name']);
+    }
+    
+    /**
+     * 
+     * @return Host[]
+     */
+    public function getHosts()
+    {
+        return $this->hasMany(Host::className(), ['location_name' => 'location_name']);
+    }
 }
+

@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'location_name')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
 

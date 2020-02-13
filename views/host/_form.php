@@ -8,6 +8,9 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 $types = $model::listTypes();
+$osList = $model::listOs();
+
+define('YesOrNo', [1=>'Yes',0=>'No'], true);
 ?>
 
 <div class="host-form">
@@ -42,14 +45,28 @@ $types = $model::listTypes();
     
         <?= $form->field($model, 'monitor_ip')->textInput(['maxlength' => true]) ?>
     
-        <?= $form->field($model, 'enabled')->radioList([1=>'Yes',0=>'No']) ?>
+        <?= $form->field($model, 'enabled')->radioList(YesOrNo) ?>
 
     <?php } ?>
     
+    <?= $form->field($model, 'hw_show')->radioList(YesOrNo) ?>
+    
+    <?= $form->field($model, 'virtual')->radioList(YesOrNo) ?>
+    
+    <?= $form->field($model, 'dod_approval')->radioList(YesOrNo) ?>
+    
+    <?= $form->field($model, 'critical')->radioList(YesOrNo) ?>
+    
+    <?= $form->field($model, 'os_id')->dropDownList($osList) ?>
+    
+    <?= $form->field($model, 'make')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'serial')->textInput(['maxlength' => true]) ?>
+    
     <?= $form->field($model, 'notes')->textarea(['rows' => 6]) ?>
     
-    
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
         <?php if($model->isNewRecord) { ?>
