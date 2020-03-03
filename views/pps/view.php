@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
     	<?php
     	if($pps) {
-    	    echo Html::a('PPS', ['show', 'id' => $pps->id], ['class' => 'btn btn-success pull-right']);
+    	    echo Html::a('PPS', ['show', 'name' => $pps->fw_name], ['class' => 'btn btn-success pull-right']);
     	}
     	?>
     	

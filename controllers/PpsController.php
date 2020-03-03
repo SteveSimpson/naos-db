@@ -112,9 +112,9 @@ class PpsController extends Controller
         ]);
     }
     
-    public function actionShow($id)
+    public function actionShow($name)
     {
-        $policies = Pps::find()->where($id)->orderBy(['source_zone'=>SORT_ASC,'destination_zone'=>SORT_ASC,'line'=>SORT_ASC])->all();
+        $policies = Pps::find()->where(['fw_name'=>$name])->orderBy(['source_zone'=>SORT_ASC,'destination_zone'=>SORT_ASC,'line'=>SORT_ASC])->all();
         
         if ($policies == false || count($policies) == 0) {
             throw new NotFoundHttpException('The requested page does not exist.');
