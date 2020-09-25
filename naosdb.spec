@@ -30,7 +30,8 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u})
 
 %prep 
 umask 0022
-%setup -n naosdb -b 0 -a 1 -a 2 -a 3
+%setup -n naosdb -b 0 -a 1 
+#-a 2 -a 3
 
 
 %build
@@ -207,7 +208,7 @@ semodule -i /etc/nagios/naosdb.pp
 /var/www/naosdb/yii
 
 %defattr(0640,root,apache,0755)
-%config /etc/httpd/secdev_conf.d/naosdb.ssl
+%config /etc/httpd/conf.d/naosdb.conf
 %config /var/www/naosdb/config/console.php
 %config /var/www/naosdb/config/web.php
 %config(noreplace) /var/www/naosdb/config/db.php
