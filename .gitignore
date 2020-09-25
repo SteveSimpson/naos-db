@@ -40,3 +40,5 @@ tests/_support/_generated
 /config/cookiestring
 /config/mailer.php
 /config/dev_ip.php
+/data/*
+/docs/*
