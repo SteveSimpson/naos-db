@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# A package script for the Naos-DB
+# by Steve Simpson <steven.simpson@parsons.com>
+# on 9/5/2020
+#
+
+umask 022
+
+APP=naosdb
+
+# get the directory that this script is in
+PKGDIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${PKGDIR}"
+
+pushd ~/rpmbuild/SOURCES/
+SDIR="`pwd`"
+popd
+
+git archive --prefix naosdb/ -o "${SDIR}/naosdb.tgz" master .
+
+composer install --no-dev
+
+pushd vendor
+for SEARCHTERM in example examples doc docs test tests samples maintenance extras
+do
+  for FOUNDDIR in `find . -type d -iname ${SEARCHTERM}`
+  do
+    if [ "${FOUNDDIR}" != "./yiisoft/yii2/test" ] ; then
+      echo removing: ${FOUNDDIR}
+      rm -rf ${FOUNDDIR}
+    fi
+  done
+done
+popd
+
+tar -cvzf "${SDIR}/naosdb_vendor.tgz" vendor/*
+
+cd "${PKGDIR}"
+VERSION=`grep "Version:" naosdb.spec | cut  -d':' -f 2 | tr -d ' '`
+RELEASE=`grep "Release:" naosdb.spec | cut  -d':' -f 2 | tr -d ' '`
+echo spec file version: ${VERSION}-${RELEASE} 

@@ -1,18 +1,18 @@
-Summary: RADIX DB
-Name:    secdev_naosdb
-Version: 1.1
-Release: 2
+Summary: Naos DB addon for Nagios
+Name:    naosdb
+Version: 1.2
+Release: 1
 License: MIT
-URL:	https://www.hwss.hpc.mil
+URL:	https://github.com/SteveSimpson/naos-db
 Vendor: Parsons
 
 Source0: naosdb.tgz
 Source1: naosdb_vendor.tgz
-Source2: vautour-style.tgz
-Source3: secdev_naosdb.tgz
+# Source2: vautour-style.tgz
+# Source3: secdev_naosdb.tgz
 
 %description
-Provides style and simple DB for Nagios.
+Provides simple DB for Nagios. Also adds updated vautour-style GUI for Nagios.
 
 Requires: php >= 7
 Requires: php-common, php-xml, php-cli
@@ -35,17 +35,17 @@ umask 0022
 
 %build
 # change the menu
-sed -i.bak "s|menu.html|naos.php?r=nagios%2Fmenu|" vautour-style/index.php
-sed -i.bak "s|menu.html|naos.php?r=nagios%2Fmenu|" vautour-style/index.html
+# sed -i.bak "s|menu.html|naos.php?r=nagios%2Fmenu|" vautour-style/index.php
+# sed -i.bak "s|menu.html|naos.php?r=nagios%2Fmenu|" vautour-style/index.html
 
 # change the vatour logo to HWSS Text
-sed -i.bak 's|<img src="images/interface/logo.gif" alt="Logo" />|HWSS|' vautour-style/top.html
+# sed -i.bak 's|<img src="images/interface/logo.gif" alt="Logo" />|HWSS|' vautour-style/top.html
 
 
 %install
 umask 0022
 
-mkdir -p $RPM_BUILD_ROOT/etc/httpd/secdev_conf.d
+mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf.d
 mkdir -p $RPM_BUILD_ROOT/etc/nagios
 mkdir -p $RPM_BUILD_ROOT/var/www/naosdb
 mkdir -p $RPM_BUILD_ROOT/var/www/naosdb/web/assets
@@ -69,11 +69,11 @@ done
 
 for TARGET in index.php mb.jpg robots.txt style.css
 do
-  cp secdev_naosdb/$TARGET $RPM_BUILD_ROOT/var/www/html/
+  cp splash/$TARGET $RPM_BUILD_ROOT/var/www/html/
 done
 
-cp secdev_naosdb/naosdb.ssl         $RPM_BUILD_ROOT/etc/httpd/secdev_conf.d/
-cp secdev_naosdb/selinux/naosdb.pp  $RPM_BUILD_ROOT/etc/nagios/naosdb.pp
+cp naosdb.conf         $RPM_BUILD_ROOT/etc/httpd/conf.d/
+cp selinux/naosdb.pp                $RPM_BUILD_ROOT/etc/nagios/naosdb.pp
 
 mv $RPM_BUILD_ROOT/var/www/naosdb/yii2_docs $RPM_BUILD_ROOT/var/www/naosdb/vendor_docs
 /bin/rm -f $RPM_BUILD_ROOT/var/www/naosdb/web/index-test.php
@@ -131,10 +131,13 @@ ln -s /usr/share/nagios/html/images/logos .
 popd
 
 pushd js
-for TARGET in histogram-events histogram jsonquery map nagios-decorations trends-form histogram-form jquery-1.12.4.min map-directive nagios-time trends-graph histogram-graph map-form nag_funcs trends
+for TARGET in histogram-events histogram jsonquery map nagios-decorations trends-form histogram-form map-directive nagios-time trends-graph histogram-graph map-form nag_funcs trends
 do 
   ln -s /usr/share/nagios/html/js/$TARGET.js .
 done
+# simple hack to update jquery without rebuilding Nagios
+ln -s jquery-3.5.1.min.js jquery-1.12.4.min.js
+
 # popd for js
 popd
 
@@ -219,6 +222,10 @@ semodule -i /etc/nagios/naosdb.pp
 
 
 %changelog
+* Fri Sep 25 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-1
+- Updated to include vautour style
+- CVE fix for jquery
+
 * Thu Feb 13 2020 Steve Simpson <steven.simpson@parsons.com> - 1.1-1
 - Updated from upstream to include hardware and software lists
 
