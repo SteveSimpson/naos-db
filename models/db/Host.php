@@ -118,6 +118,7 @@ class Host extends \yii\db\ActiveRecord
             'san-controller' => 'SAN Controller',
             'san-disk' => 'SAN Storage Disk',
             'generic-drac' => 'DRAC',
+            'linux-cssp' => 'Server, CSSP Linux',
         ];
     }
     

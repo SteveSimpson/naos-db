@@ -76,4 +76,32 @@ class Nagios extends Model
             ],
         ];
     }
+    
+    /**
+     * TODO - this should have a table with maintenance, but this is a lot faster
+     * 
+     * @return array
+     */
+    public static function serviceMatchList()
+    {
+        return [
+            'Application',
+            'Cert',
+            'CRLs',
+            'DNS',
+            'Drive',
+            'FIPS',
+            'HTTP',
+            'Load',
+            'Memory',
+            'Partition',
+            'Postfix',
+            'Puppet',
+            'SELinux',
+            'SSH',
+            'Swap',
+            'Updates',
+        ];
+        
+    }
 }

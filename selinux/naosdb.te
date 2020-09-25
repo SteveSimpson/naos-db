@@ -1,0 +1,13 @@
+
+module naosdb 1.0;
+
+require {
+	type nagios_t;
+	type httpd_sys_content_t;
+	class file { getattr open read };
+	class dir read;
+}
+
+#============= nagios_t ==============
+allow nagios_t httpd_sys_content_t:dir read;
+allow nagios_t httpd_sys_content_t:file { getattr open read };

@@ -129,6 +129,77 @@ class PpsController extends Controller
             'addresses' => FwAddresses::find()->where(['fw_name'=>$policies[0]->fw_name])->orderBy(['fw_zone'=>SORT_ASC,'name'=>SORT_ASC,'ip'=>SORT_ASC])->all(),
         ]);
     }
+    
+    
+    public function actionRules($name)
+    {   
+        $sources = Pps::find()->asArray(true)->distinct(true)->select(['source_zone','fw_name'])
+        ->where(['fw_name'=>$name])
+        ->andWhere(['<>', 'source_zone', ''])
+        ->orderBy(['source_zone'=>SORT_ASC])
+        ->all();
+        
+        $destinations = Pps::find()->asArray(true)->distinct(true)->select(['destination_zone'])
+        ->where(['fw_name'=>$name])
+        ->andWhere(['<>', 'destination_zone', ''])
+        ->orderBy(['destination_zone'=>SORT_ASC])
+        ->all();
+        
+        
+        $policies = [];
+        $sourcesSelected = [];
+        $destinationsSelected = [];
+        $applicationFilter = false;
+        $sourceFilter = false;
+        $desintationFilter = false;
+        
+        if(Yii::$app->request->isPost && Yii::$app->request->validateCsrfToken() 
+        && isset(Yii::$app->request->post()['sources']) && isset(Yii::$app->request->post()['desintations'])) {
+                
+            //echo "<pre>";
+            //print_r(Yii::$app->request->post());
+            //die();
+            
+            $sourcesSelected = Yii::$app->request->post()['sources'];
+            $destinationsSelected = Yii::$app->request->post()['desintations'];
+           
+            $policiesQuery = Pps::find()->where(['fw_name'=>$name])
+            ->andWhere(['source_zone' => $sourcesSelected])
+            ->andWhere(['destination_zone' => $destinationsSelected])
+            ->orderBy(['source_zone'=>SORT_ASC,'destination_zone'=>SORT_ASC,'line'=>SORT_ASC]);
+            
+            if(isset(Yii::$app->request->post()['applicationFilter']) && strlen(Yii::$app->request->post()['applicationFilter']) >= 1) {
+                $applicationFilter = Yii::$app->request->post()['applicationFilter'];
+                $policiesQuery->andWhere(['like', 'application', $applicationFilter]);
+            }
+            
+            if(isset(Yii::$app->request->post()['sourceFilter']) && strlen(Yii::$app->request->post()['sourceFilter']) >= 1) {
+                $sourceFilter = Yii::$app->request->post()['sourceFilter'];
+                $policiesQuery->andWhere(['like', 'source_address', $sourceFilter]);
+            }
+            
+            if(isset(Yii::$app->request->post()['desintationFilter']) && strlen(Yii::$app->request->post()['desintationFilter']) >= 1) {
+                $desintationFilter = Yii::$app->request->post()['desintationFilter'];
+                $policiesQuery->andWhere(['like', 'destination_address', $desintationFilter]);
+            }
+            
+            $policies = $policiesQuery->all();
+        } 
+        
+        $this->layout = "nagios";
+        
+        return $this->render('rules', [
+            'post' => Yii::$app->request->isPost,
+            'sources'=>$sources,
+            'destinations'=>$destinations,
+            'sourcesSelected'=>$sourcesSelected,
+            'destinationsSelected'=>$destinationsSelected,
+            'applicationFilter'=> $applicationFilter,
+            'sourceFilter' => $sourceFilter,
+            'desintationFilter'=> $desintationFilter,
+            'policies'=>$policies,
+        ]);
+    }
 
     /**
      * Deletes an existing FwConfig model.

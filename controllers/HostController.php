@@ -163,9 +163,27 @@ class HostController extends Controller
         return $this->redirect(['index']);
     }
     
-    public function actionEtcHosts()
+    
+    public function actionBoltGroup()
     {
         $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4', 'ipv6'])->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
+        
+        $nets = Network::find()->asArray(false)->all();
+        
+        $this->layout = false;
+        Yii::$app->response->format = Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'text/plain');
+        
+        return $this->render('bolt-group', [
+            'hosts' => $hosts,
+            'nets' => $nets,
+        ]);
+    }
+    
+    public function actionEtcHosts()
+    {
+        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4'])
+        ->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
         
         $nets = Network::find()->asArray(false)->all();
         

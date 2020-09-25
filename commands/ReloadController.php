@@ -12,6 +12,7 @@ use app\models\db\Pps;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\db\Network;
+use app\models\db\PuppetHost;
 
 /**
  *
@@ -118,6 +119,22 @@ class ReloadController extends Controller
             $host->ipv4int = 1;
             $host->save();
         }
+    }
+    
+    public function actionPuppetFact($file)
+    {
+        if (!is_readable($file)) {
+            echo "ERROR: Cannot access $file.\n";
+            return ExitCode::IOERR;
+        }
+        
+        $yaml = yaml_parse_file($file);
+        
+        //print_r($yaml);
+        
+        $facts = PuppetHost::upsertFactFile($yaml);
+        
+        print_r($facts);
     }
     
     public function actionPps($firewall)

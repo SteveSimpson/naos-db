@@ -1,0 +1,17 @@
+Since we are storing the config files under /var/www Nagios needs to be able to read them.
+
+[root@nash nagios]# grep nagios /var/log/audit/audit.log | audit2allow 
+
+
+#============= nagios_t ==============
+allow nagios_t httpd_sys_content_t:dir read;
+allow nagios_t httpd_sys_content_t:file { getattr open read };
+
+[root@nash nagios]# grep nagios /var/log/audit/audit.log | audit2allow -m naosdb > naosdb.te
+
+
+[root@nash nagios]# checkmodule -M -m -o naosdb.mod naosdb.te
+checkmodule:  loading policy configuration from naosdb.te
+checkmodule:  policy configuration loaded
+checkmodule:  writing binary representation (version 19) to naosdb.mod
+[root@nash nagios]# semodule_package -o naosdb.pp -m naosdb.mod

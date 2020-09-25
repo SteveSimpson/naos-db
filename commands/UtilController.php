@@ -32,6 +32,45 @@ class UtilController extends Controller
         return ExitCode::OK;
     }
     
+    
+    public function actionUpdateService($service)
+    {
+        $hosts = Host::find()->where([ 'type' =>  'linux-server' ,'enabled' => 1])
+        ->andWhere(['=', 'os_id', 1])
+        ->orderBy(['hostname'=>SORT_ASC])->all();
+        
+        foreach ($hosts as $host) {
+            $params=[
+                'cmd_typ'=>7,
+                'cmd_mod'=>2,
+                'host'=>$host,
+                'service'=>$service,
+                'start_time'=>date('m-d-Y H:i:s'),
+                'force_check'=>1,
+                'btnSubmit'=>'Commit',
+            ];
+            
+            $cURLConnection = curl_init('http://hostname.tld/api');
+            curl_setopt($cURLConnection, CURLOPT_POSTFIELDS, $params);
+               
+            curl_setopt($cURLConnection, CURLOPT_RETURNTRANSFER, true);
+            
+            $apiResponse = curl_exec($cURLConnection);
+            curl_close($cURLConnection);
+            
+            echo $host->hostname . "\t" .
+                (isset ($host->os) ? $host->os->os_name_version : "?") . "\n";
+                
+                //$host->type = 'generic-host';
+                //$host->save();
+            
+        }
+        
+    }
+    
+    
+    
+    
     /**
      * This will insert or update hosts in the database; first field of file must be hostname
      * Any other fields will be added to the host
