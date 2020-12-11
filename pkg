@@ -19,20 +19,20 @@ popd
 
 git archive --prefix naosdb/ -o "${SDIR}/naosdb.tgz" master .
 
-composer install --no-dev
+composer install
 
-pushd vendor
-for SEARCHTERM in example examples doc docs test tests samples maintenance extras
-do
-  for FOUNDDIR in `find . -type d -iname ${SEARCHTERM}`
-  do
-    if [ "${FOUNDDIR}" != "./yiisoft/yii2/test" ] ; then
-      echo removing: ${FOUNDDIR}
-      rm -rf ${FOUNDDIR}
-    fi
-  done
-done
-popd
+# pushd vendor
+# for SEARCHTERM in example examples doc docs test tests samples maintenance extras
+# do
+#   for FOUNDDIR in `find . -type d -iname ${SEARCHTERM}`
+#   do
+#     if [ "${FOUNDDIR}" != "./yiisoft/yii2/test" ] ; then
+#       echo removing: ${FOUNDDIR}
+#       rm -rf ${FOUNDDIR}
+#     fi
+#   done
+# done
+# popd
 
 tar -cvzf "${SDIR}/naosdb_vendor.tgz" vendor/*
 

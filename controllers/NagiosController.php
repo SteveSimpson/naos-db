@@ -32,4 +32,18 @@ class NagiosController extends Controller
             'model' => Nagios::menuItems(),
         ]);
     }
+    
+    public function actionSearch()
+    {
+        return $this->renderPartial('search', [
+        ]);
+    }
+    
+    public function actionTop()
+    {
+        return $this->renderPartial('top',[
+            'logoImage' => (array_key_exists('logoImage', Yii::$app->params) ? Yii::$app->params['logoImage'] : false),
+            'logoText' => (array_key_exists('logoText', Yii::$app->params) ? Yii::$app->params['logoText'] : false),
+        ]);
+    }
 }

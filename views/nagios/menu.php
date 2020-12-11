@@ -23,6 +23,7 @@
 	    foreach ($data as $row) {
 	        echo "			<li class='$class'>\n";
 	        foreach ($row as $key=>$link) {
+	            $link = urlencode($link);
 	            echo "<a href='$link' target='main'>$key</a> ";
 	        }
 	        

@@ -1,7 +1,7 @@
 Summary: Naos DB addon for Nagios
 Name:    naosdb
 Version: 1.2
-Release: 1
+Release: 5
 License: MIT
 URL:	https://github.com/SteveSimpson/naos-db
 Vendor: Parsons
@@ -87,7 +87,7 @@ for TARGET in images js stylesheets
 do
   cp -a vautour-style/$TARGET $RPM_BUILD_ROOT/var/www/naosdb/web/
 done
-cp vautour-style/*html     $RPM_BUILD_ROOT/var/www/naosdb/web/
+# cp vautour-style/*html     $RPM_BUILD_ROOT/var/www/naosdb/web/
 cp vautour-style/index.php $RPM_BUILD_ROOT/var/www/naosdb/web/
 cp vautour-style/readme.txt $RPM_BUILD_ROOT/var/www/naosdb/vendor_docs/vautour-style-readme.txt
 
@@ -221,8 +221,17 @@ semodule -i /etc/nagios/naosdb.pp
 %dir /var/www/naosdb/web/assets
 %dir /var/www/naosdb/runtime
 
-
 %changelog
+* Fri Dec 11 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-5
+- Update Naos to use yii paths
+
+* Tue Dec 08 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-3
+- Clean up
+
+* Fri Dec 04 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-2
+- Update yii
+- Separate menu items for Service Problems and Updates
+
 * Fri Sep 25 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-1
 - Updated to include vautour style
 - CVE fix for jquery
