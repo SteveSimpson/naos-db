@@ -182,7 +182,7 @@ class HostController extends Controller
     
     public function actionEtcHosts()
     {
-        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4'])
+        $hosts = Host::find()->select(['hostname','network_name','fqdn','ipv4','ipv6'])
         ->orderBy(['network_name'=>SORT_ASC,'ipv4int'=>SORT_ASC])->asArray(true)->all();
         
         $nets = Network::find()->asArray(false)->all();

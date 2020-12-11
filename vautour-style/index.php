@@ -1,30 +1,30 @@
-<?php 
-$top    = urlencode('naos.php?r=nagios/top');
-$menu   = urlencode('naos.php?r=nagios/menu');
-$search = urlencode('naos.php?r=nagios/search');
+<?php
+$top    = 'naos.php?r='.urlencode('nagios/top');
+$menu   = 'naos.php?r='.urlencode('nagios/menu');
+$search = 'naos.php?r='.urlencode('nagios/search');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<title>Web Interface Monitoring</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="Content-Language" content="en" />
-	<meta name="robots" content="noindex, nofollow" />
-	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+        <title>Web Interface Monitoring</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="Content-Language" content="en" />
+        <meta name="robots" content="noindex, nofollow" />
+        <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 </head>
-	<frameset rows="60,*" frameborder="0" framespacing="0">
-		<frame src="<?=$top ?>" name="top" />
-		<frameset cols="200,*" frameborder="0" framespacing="0">
-			<frame src="<?=$menu ?>" name="side" target="main" noresize="noresize" />
-			<frameset rows="26,*" frameborder="0" framespacing="0">
-				<frame src="<?=$search ?>" name="navigation" noresize="noresize" />
-				<frame src="cgi-bin/tac.cgi" name="main" noresize="noresize" />
-			</frameset>
-		</frameset>
-		<noframes>
-			<body>
-				<p>These pages require a browser which supports frames.</p>
-			</body>
-		</noframes>
-	</frameset>
+        <frameset rows="60,*" frameborder="0" framespacing="0">
+                <frame src="<?=$top ?>" name="top" />
+                <frameset cols="200,*" frameborder="0" framespacing="0">
+                        <frame src="<?=$menu ?>" name="side" target="main" noresize="noresize" />
+                        <frameset rows="26,*" frameborder="0" framespacing="0">
+                                <frame src="<?=$search ?>" name="navigation" noresize="noresize" />
+                                <frame src="cgi-bin/tac.cgi" name="main" noresize="noresize" />
+                        </frameset>
+                </frameset>
+                <noframes>
+                        <body>
+                                <p>These pages require a browser which supports frames.</p>
+                        </body>
+                </noframes>
+        </frameset>
 </html>

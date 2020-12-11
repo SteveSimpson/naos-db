@@ -1,7 +1,7 @@
 Summary: Naos DB addon for Nagios
 Name:    naosdb
 Version: 1.2
-Release: 5
+Release: 7
 License: MIT
 URL:	https://github.com/SteveSimpson/naos-db
 Vendor: Parsons
@@ -222,11 +222,9 @@ semodule -i /etc/nagios/naosdb.pp
 %dir /var/www/naosdb/runtime
 
 %changelog
-* Fri Dec 11 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-5
+* Fri Dec 11 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-7
 - Update Naos to use yii paths
-
-* Tue Dec 08 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-3
-- Clean up
+- Fixes and Clean up
 
 * Fri Dec 04 2020 Steve Simpson <steven.simpson@parsons.com> - 1.2-2
 - Update yii
