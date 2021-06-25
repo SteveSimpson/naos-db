@@ -22,6 +22,7 @@ Requires: httpd
 BuildRequires: nagios
 
 %define __find_requires %{nil}
+%define debug_package %{nil}
 Autoreq: 0
 BuildArch: noarch
 AutoReqProv: no
